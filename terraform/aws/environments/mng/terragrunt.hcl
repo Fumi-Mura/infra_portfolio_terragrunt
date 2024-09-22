@@ -21,22 +21,22 @@ remote_state {
   }
 }
 
-// generate "provider" {
-//   path      = "_provider.tf"
-//   if_exists = "overwrite_terragrunt"
-//   contents  = <<EOF
-//     provider "aws" {
-//       region = "${local.region_name}"
-//       default_tags {
-//         tags = {
-//           Environment        = "${local.env}"
-//           ServiceName        = "${local.name}"
-//           ManagedByTerraform = true
-//         }
-//       }
-//     }
-//   EOF
-// }
+generate "provider" {
+  path      = "_provider.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<EOF
+    provider "aws" {
+      region = "${local.region}"
+      default_tags {
+        tags = {
+          Environment        = "${local.env}"
+          ServiceName        = "${local.name}"
+          ManagedByTerraform = true
+        }
+      }
+    }
+  EOF
+}
 
 generate "version" {
   path      = "_terraform.tf"
@@ -58,6 +58,7 @@ locals {
   env_vars    = yamldecode(file(find_in_parent_folders("env_vars.yaml")))
   common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
 
-  env  = local.env_vars.env
-  name = local.common_vars.name
+  env    = local.env_vars.env
+  region = local.common_vars.region
+  name   = local.common_vars.name
 }
