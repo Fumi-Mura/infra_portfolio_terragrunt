@@ -8,10 +8,14 @@ terraform {
 }
 
 inputs = {
-  env = "mng"
-  name = "my-app-production"
+  env  = local.env
+  name = local.service_name
 }
 
 locals {
-  env = "mng"
+  common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
+  env_vars    = yamldecode(file(find_in_parent_folders("env_vars.yaml")))
+
+  env = local.env_vars.env
+  service_name = local.common_vars.service_name
 }
