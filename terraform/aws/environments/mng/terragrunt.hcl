@@ -8,10 +8,12 @@ remote_state {
   }
 
   config  = {
-    bucket  = "terragrunt-${local.env}-${local.name}-terraform-tfstate-s3-bucket"
-    key     = "${path_relative_to_include()}/terraform.tfstate"
-    region  = "${local.region}"
-    encrypt = true
+    # Default versioning setting is enabled.
+    bucket               = "terragrunt-${local.env}-${local.name}-terraform-tfstate-s3-bucket"
+    key                  = "${path_relative_to_include()}/terraform.tfstate"
+    region               = "${local.region}"
+    encrypt              = true
+    bucket_sse_algorithm = "AES256"
 
     s3_bucket_tags = {
       "Environments"        = "${path_relative_to_include()}"
