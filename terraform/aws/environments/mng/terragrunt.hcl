@@ -17,7 +17,6 @@ remote_state {
       "Environments"        = "${path_relative_to_include()}"
       "ServiceName"         = "${local.name}"
       "CreatedByTerragrunt" = "true"
-      "ManagedByTerraform"  = "true"
     }
   }
 }
