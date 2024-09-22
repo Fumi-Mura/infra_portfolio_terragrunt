@@ -8,18 +8,26 @@ remote_state {
   }
 
   config  = {
-    bucket  = "terragrunt-mng-fumis-portfolio-terraform-tfstate-s3-bucket"
+    bucket  = "terragrunt-${local.env}-${local.name}-terraform-tfstate-s3-bucket"
     key     = "${path_relative_to_include()}/terraform.tfstate"
     region  = "ap-northeast-1"
     encrypt = true
 
     s3_bucket_tags = {
       "Environments"        = "${path_relative_to_include()}"
-      "ServiceName"         = "fumis-portfolio"
+      "ServiceName"         = "${local.name}"
       "CreatedByTerragrunt" = "true"
       "ManagedByTerraform"  = "true"
     }
   }
+}
+
+locals {
+  env_vars    = yamldecode(file(find_in_parent_folders("env_vars.yaml")))
+  common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
+
+  env  = local.env_vars.env
+  name = local.common_vars.name
 }
 
 // generate "provider" {
