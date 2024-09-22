@@ -21,14 +21,6 @@ remote_state {
   }
 }
 
-locals {
-  env_vars    = yamldecode(file(find_in_parent_folders("env_vars.yaml")))
-  common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
-
-  env  = local.env_vars.env
-  name = local.common_vars.name
-}
-
 // generate "provider" {
 //   path      = "_provider.tf"
 //   if_exists = "overwrite_terragrunt"
@@ -46,18 +38,26 @@ locals {
 //   EOF
 // }
 
-// generate "version" {
-//   path      = "_version.tf"
-//   if_exists = "overwrite_terragrunt"
-//   contents  = <<EOF
-//     terraform {
-//     required_version = "1.9.0"
-//     required_providers {
-//       aws = {
-//         version = "5.59.0"
-//         source  = "hashicorp/aws"
-//       }
-//     }
-//   }
-//   EOF
-// }
+generate "version" {
+  path      = "_terraform.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<EOF
+    terraform {
+    required_version = "1.9.0"
+    required_providers {
+      aws = {
+        version = "5.59.0"
+        source  = "hashicorp/aws"
+      }
+    }
+  }
+  EOF
+}
+
+locals {
+  env_vars    = yamldecode(file(find_in_parent_folders("env_vars.yaml")))
+  common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
+
+  env  = local.env_vars.env
+  name = local.common_vars.name
+}
