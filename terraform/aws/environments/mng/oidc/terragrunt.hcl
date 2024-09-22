@@ -9,13 +9,13 @@ terraform {
 
 inputs = {
   env  = local.env
-  name = local.service_name
+  name = local.name
 }
 
 locals {
-  common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
   env_vars    = yamldecode(file(find_in_parent_folders("env_vars.yaml")))
+  common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
 
-  env = local.env_vars.env
-  service_name = local.common_vars.service_name
+  env  = local.env_vars.env
+  name = local.common_vars.name
 }
