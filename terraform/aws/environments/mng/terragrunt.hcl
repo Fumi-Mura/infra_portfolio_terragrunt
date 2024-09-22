@@ -10,7 +10,7 @@ remote_state {
   config  = {
     bucket  = "terragrunt-${local.env}-${local.name}-terraform-tfstate-s3-bucket"
     key     = "${path_relative_to_include()}/terraform.tfstate"
-    region  = "ap-northeast-1"
+    region  = "${local.region}"
     encrypt = true
 
     s3_bucket_tags = {
