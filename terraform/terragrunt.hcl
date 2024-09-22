@@ -22,35 +22,35 @@ remote_state {
   }
 }
 
-# generate "provider" {
-#   path      = "_provider.tf"
-#   if_exists = "overwrite_terragrunt"
-#   contents  = <<EOF
-#     provider "aws" {
-#       region = "${local.region_name}"
-#       default_tags {
-#         tags = {
-#           Environment        = "${local.env}"
-#           ServiceName        = "${local.name}"
-#           ManagedByTerraform = true
-#         }
-#       }
-#     }
-#   EOF
-# }
+// generate "provider" {
+//   path      = "_provider.tf"
+//   if_exists = "overwrite_terragrunt"
+//   contents  = <<EOF
+//     provider "aws" {
+//       region = "${local.region_name}"
+//       default_tags {
+//         tags = {
+//           Environment        = "${local.env}"
+//           ServiceName        = "${local.name}"
+//           ManagedByTerraform = true
+//         }
+//       }
+//     }
+//   EOF
+// }
 
-# generate "version" {
-#   path      = "_version.tf"
-#   if_exists = "overwrite_terragrunt"
-#   contents  = <<EOF
-#     terraform {
-#     required_version = "1.9.0"
-#     required_providers {
-#       aws = {
-#         version = "5.59.0"
-#         source  = "hashicorp/aws"
-#       }
-#     }
-#   }
-#   EOF
-# }
+// generate "version" {
+//   path      = "_version.tf"
+//   if_exists = "overwrite_terragrunt"
+//   contents  = <<EOF
+//     terraform {
+//     required_version = "1.9.0"
+//     required_providers {
+//       aws = {
+//         version = "5.59.0"
+//         source  = "hashicorp/aws"
+//       }
+//     }
+//   }
+//   EOF
+// }
