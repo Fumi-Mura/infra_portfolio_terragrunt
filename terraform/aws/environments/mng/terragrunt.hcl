@@ -45,10 +45,10 @@ generate "version" {
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
     terraform {
-    required_version = "1.9.0"
+    required_version = "~> 1.9.0"
     required_providers {
       aws = {
-        version = "5.59.0"
+        version = "~> 5.59.0"
         source  = "hashicorp/aws"
       }
     }
