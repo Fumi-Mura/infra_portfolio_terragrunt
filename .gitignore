@@ -1,5 +1,5 @@
 #  Local .terraform directories
-**/.terraform/*
+.terraform
 
 # .tfstate files
 *.tfstate
@@ -13,8 +13,8 @@
 _*.tf
 
 # Local settings
-**/.vscode/*
-**/.envrc
+.vscode
+.envrc
 
 # For Mac
 .DS_Store
