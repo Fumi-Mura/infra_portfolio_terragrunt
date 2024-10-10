@@ -9,7 +9,7 @@ on:
 permissions:
   id-token: write
   contents: read
-  issues: write # Add for comment for PR
+  issues: write # Add for PR comment
 env:
   WORKING_DIRECTORY: "terraform/aws/environments/mng/oidc"
 jobs:
