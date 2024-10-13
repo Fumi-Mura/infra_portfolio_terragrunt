@@ -46,6 +46,10 @@ jobs:
       #   id: fmt
       #   run: terraform fmt -check -recursive # Output a list of filenames whose files are not properly formatted.
       #   continue-on-error: true # Don't stop when an error occurs
+
+      ##################################################
+      # TFLint
+      ##################################################
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v4
         with:
@@ -64,11 +68,19 @@ jobs:
           reporter: github-pr-review
           fail_on_error: false # Don't stop when an error occurs
           flags: --config ${{ github.workspace }}/terraform/.tflint.hcl
+
+      ##################################################
+      # tfsec
+      ##################################################
       - name: Run tfsec
         uses: tfsec/tfsec-pr-commenter-action@main
         with:
           working-directory: ${{env.WORKING_DIRECTORY}}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      ##################################################
+      # tf plan
+      ##################################################
       - name: Plan Terraform
         run: terraform plan
         working-directory: ${{ env.WORKING_DIRECTORY }}
