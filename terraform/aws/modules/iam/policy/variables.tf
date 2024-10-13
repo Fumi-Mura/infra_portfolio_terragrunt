@@ -10,23 +10,19 @@ variable "purpose" {
   type = string
 }
 
-variable "resources" {
-  type = list(string)
-}
-
-variable "assume_type" {
-  type = string
-}
-
-variable "assume_identifiers" {
-  type = list(string)
-}
-
-variable "managed_policy_arns" {
-  type = list(string)
-}
-
-variable "max_session_duration" {
-  type = number
-  default = 3600
+variable "policy_statement" {
+  type = list(object({
+    effect        = string
+    actions       = optional(list(string), [])
+    not_actions   = optional(list(string), [])
+    resource      = optional(list(string), [])
+    not_resources = optional(list(string), [])
+    condition = list(object({
+      test     = string
+      variable = string
+      values   = list(string)
+    }))
+  }))
+  default     = []
+  description = "IAM policy statement list."
 }
