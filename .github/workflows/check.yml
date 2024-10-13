@@ -6,6 +6,10 @@ on:
   # Only run when Push or make PR
   pull_request:
     branches: main
+# Cancel if workflow is running in the same group.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   id-token: write
   contents: read
