@@ -12,12 +12,12 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "this" {
-  name                 = "${var.env}-${var.name}-${var.purpose}-iam-role"
+  name                 = "${var.env}-${var.name}-${var.role}-iam-role"
   assume_role_policy   = data.aws_iam_policy_document.assume_role.json
   managed_policy_arns  = var.managed_policy_arns
   max_session_duration = var.max_session_duration
 
   tags = {
-    Name = "${var.env}-${var.name}-${var.purpose}-iam-role"
+    Name = "${var.env}-${var.name}-${var.role}-iam-role"
   }
 }

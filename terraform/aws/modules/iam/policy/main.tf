@@ -21,10 +21,10 @@ data "aws_iam_policy_document" "this" {
 }
 
 resource "aws_iam_policy" "this" {
-  name   = "${var.env}-${var.name}-${var.purpose}-iam-policy"
+  name   = "${var.env}-${var.name}-${var.role}-iam-policy"
   policy = data.aws_iam_policy_document.this.json
 
   tags = {
-    Name = "${var.env}-${var.name}-${var.purpose}-iam-policy"
+    Name = "${var.env}-${var.name}-${var.role}-iam-policy"
   }
 }
