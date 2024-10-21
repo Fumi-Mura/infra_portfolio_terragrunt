@@ -1,4 +1,4 @@
-resource "aws_cloudwatch_metric_alarm" "foobar" {
+resource "aws_cloudwatch_metric_alarm" "this" {
   alarm_name                = "${var.env}-${var.name}-${var.role}-cw-alarm"
   comparison_operator       = var.comparison_operator
   evaluation_periods        = var.evaluation_periods
