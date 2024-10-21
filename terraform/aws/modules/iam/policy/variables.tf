@@ -11,7 +11,7 @@ variable "role" {
 }
 
 variable "policy_statement" {
-  type = list(object({
+  type = map(object({
     effect        = string
     actions       = optional(list(string), [])
     not_actions   = optional(list(string), [])
