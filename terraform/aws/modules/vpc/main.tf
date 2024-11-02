@@ -69,12 +69,23 @@ resource "aws_internet_gateway" "this" {
   }
 }
 
+# EIP
+resource "aws_eip" "this" {
+  for_each = var.public_subnets
+
+  depends_on = [ aws_internet_gateway.this ]
+  tags = {
+    Name = "${var.env}-${var.name}-${each.value.name}-eip"
+  }
+}
+
 # NAT
 resource "aws_nat_gateway" "this" {
   for_each      = var.public_subnets
+
   allocation_id = aws_eip.this[each.key].id
   subnet_id     = aws_subnet.public[each.key].id
   tags = {
-    Name = "${var.env}-${var.name}-ng-${each.value.name}"
+    Name = "${var.env}-${var.name}-${each.value.role}-ng"
   }
 }
