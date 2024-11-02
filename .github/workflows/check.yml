@@ -39,9 +39,9 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.9.0
-      # - name: Init Terraform
-      #   run: terraform init
-      #   working-directory: ${{ env.WORKING_DIRECTORY }}
+      - name: Init Terraform
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIRECTORY }}
       # - name: Format Terraform
       #   id: fmt
       #   run: terraform fmt -check -recursive # Output a list of filenames whose files are not properly formatted.
@@ -57,9 +57,7 @@ jobs:
       - name: Show TFLint version
         run: tflint --version
       - name: Init TFLint
-        run: |
-          tflint --init
-          tflint --init --config ${{ github.workspace }}/terraform/.tflint.hcl
+        run: tflint --init --config ${{ github.workspace }}/terraform/.tflint.hcl
       - name: Run TFLint
         run: tflint --recursive --format compact --config ${{ github.workspace }}/terraform/.tflint.hcl
         continue-on-error: true # Don't stop when an error occurs
