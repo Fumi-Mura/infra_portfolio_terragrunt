@@ -70,8 +70,8 @@ jobs:
           tflint_config: ${{ github.workspace }}/terraform/.tflint.hcl
           tflint_recursive: true
           # flags: "--format=compact"
+          flags: "--recursive"
           fail_on_error: false # Don't stop when an error occurs
-          # flags: --config ${{ github.workspace }}/terraform/.tflint.hcl
 
       ##################################################
       # tfsec
