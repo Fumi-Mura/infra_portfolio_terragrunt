@@ -7,3 +7,55 @@ data "aws_vpc" "default" {
 resource "aws_default_security_group" "this" {
   vpc_id = data.aws_vpc.default.id
 }
+
+# VPC
+resource "aws_vpc" "this" {
+  cidr_block           = var.vpc_cidr
+  instance_tenancy     = "default"
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+
+  tags = {
+    Name = "${var.env}-${var.name}-${var.role}-vpc"
+  }
+}
+
+# Subnet
+## Public
+resource "aws_subnet" "public" {
+  for_each = var.public_subnets
+
+  vpc_id            = aws_vpc.this.id
+  cidr_block        = each.value.cidr
+  availability_zone = each.value.az
+
+  tags = {
+    Name = "${var.env}-${var.name}-${each.value.role}"
+  }
+}
+
+## Private
+resource "aws_subnet" "private" {
+  for_each = var.private_subnets
+
+  vpc_id            = aws_vpc.this.id
+  cidr_block        = each.value.cidr
+  availability_zone = each.value.az
+
+  tags = {
+    Name = "${var.env}-${var.name}-${each.value.role}"
+  }
+}
+
+## DB
+resource "aws_subnet" "db" {
+  for_each = var.db_subnets
+
+  vpc_id            = aws_vpc.this.id
+  cidr_block        = each.value.cidr
+  availability_zone = each.value.az
+
+  tags = {
+    Name = "${var.env}-${var.name}-${each.value.role}"
+  }
+}
