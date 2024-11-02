@@ -67,7 +67,9 @@ jobs:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           tflint_init: true
+          tflint_version: "v0.52.0"
           tflint_config: ${{ github.workspace }}/terraform/.tflint.hcl
+          working_directory: ${{ github.workspace }}/terraform/
           # flags: "--format=compact"
           flags: "--recursive"
           fail_on_error: false # Don't stop when an error occurs
@@ -78,7 +80,7 @@ jobs:
       - name: Run tfsec
         uses: tfsec/tfsec-pr-commenter-action@main
         with:
-          working-directory: ${{env.WORKING_DIRECTORY}}
+          working_directory: ${{env.WORKING_DIRECTORY}}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       ##################################################
