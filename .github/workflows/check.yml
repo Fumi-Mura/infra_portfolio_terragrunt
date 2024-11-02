@@ -64,11 +64,12 @@ jobs:
       - name: Comment TFLint
         uses: reviewdog/action-tflint@master
         with:
-          working_directory: ${{ env.WORKING_DIRECTORY }}
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           tflint_init: true
           tflint_config: ${{ github.workspace }}/terraform/.tflint.hcl
+          tflint_recursive: true
+          flags: --format compact
           fail_on_error: false # Don't stop when an error occurs
           # flags: --config ${{ github.workspace }}/terraform/.tflint.hcl
 
