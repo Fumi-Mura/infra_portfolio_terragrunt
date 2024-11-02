@@ -68,7 +68,6 @@ jobs:
           reporter: github-pr-review
           tflint_init: true
           tflint_config: ${{ github.workspace }}/terraform/.tflint.hcl
-          tflint_recursive: true
           # flags: "--format=compact"
           flags: "--recursive"
           fail_on_error: false # Don't stop when an error occurs
