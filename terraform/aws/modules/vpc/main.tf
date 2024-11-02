@@ -91,3 +91,50 @@ resource "aws_nat_gateway" "this" {
     Name = "${var.env}-${var.name}-${each.value.role}-ng"
   }
 }
+
+# Route Table
+## Public
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.this.id
+
+  tags = {
+    Name = "${var.env}-${var.name}-${var.role}-rt"
+  }
+}
+
+resource "aws_route" "public" {
+  destination_cidr_block = "0.0.0.0/0"
+  route_table_id         = aws_route_table.public.id
+  gateway_id             = aws_internet_gateway.this.id
+}
+
+resource "aws_route_table_association" "public" {
+  for_each       = var.public_subnets
+
+  subnet_id      = aws_subnet.public[each.key].id
+  route_table_id = aws_route_table.public.id
+}
+
+## Private
+resource "aws_route_table" "private" {
+  for_each = var.private_subnets
+  vpc_id   = aws_vpc.this.id
+
+  tags = {
+    Name = "${var.env}-${var.name}-${var.role}-rt"
+  }
+}
+
+resource "aws_route" "private" {
+  for_each               = zipmap(keys(var.public_subnets), keys(var.private_subnets)) # RouteTableはvar.private_subnetsのkey, NATはvar.public_subnetsのkeyで作成されているため結合が必要
+
+  destination_cidr_block = "0.0.0.0/0"
+  route_table_id         = aws_route_table.private[each.value].id
+  nat_gateway_id         = aws_nat_gateway.this[each.key].id
+}
+
+resource "aws_route_table_association" "private" {
+  for_each       = var.private_subnets
+  subnet_id      = aws_subnet.private[each.key].id
+  route_table_id = aws_route_table.private[each.key].id
+}
