@@ -20,6 +20,15 @@ resource "aws_vpc" "this" {
   }
 }
 
+# IGW
+resource "aws_internet_gateway" "this" {
+  vpc_id = aws_vpc.this.id
+
+  tags = {
+    Name = "${var.env}-${var.name}-igw"
+  }
+}
+
 # Subnet
 ## Public
 resource "aws_subnet" "public" {
@@ -60,15 +69,6 @@ resource "aws_subnet" "db" {
   }
 }
 
-# IGW
-resource "aws_internet_gateway" "this" {
-  vpc_id = aws_vpc.this.id
-
-  tags = {
-    Name = "${var.env}-${var.name}-igw"
-  }
-}
-
 # EIP
 resource "aws_eip" "this" {
   for_each = var.public_subnets
@@ -76,7 +76,7 @@ resource "aws_eip" "this" {
   depends_on = [ aws_internet_gateway.this ]
 
   tags = {
-    Name = "${var.env}-${var.name}-${each.value.name}-eip"
+    Name = "${var.env}-${var.name}-${each.value.role}-eip"
   }
 }
 
