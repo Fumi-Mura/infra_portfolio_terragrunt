@@ -50,17 +50,17 @@ jobs:
       ##################################################
       # TFLint
       ##################################################
-      - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v4
-        with:
-          tflint_version: v0.52.0
-      - name: Show TFLint version
-        run: tflint --version
-      - name: Init TFLint
-        run: tflint --init --config ${{ github.workspace }}/terraform/.tflint.hcl
-      - name: Run TFLint
-        run: tflint --recursive --format compact --config ${{ github.workspace }}/terraform/.tflint.hcl
-        continue-on-error: true # Don't stop when an error occurs
+      # - name: Setup TFLint
+      #   uses: terraform-linters/setup-tflint@v4
+      #   with:
+      #     tflint_version: v0.52.0
+      # - name: Show TFLint version
+      #   run: tflint --version
+      # - name: Init TFLint
+      #   run: tflint --init --config ${{ github.workspace }}/terraform/.tflint.hcl
+      # - name: Run TFLint
+      #   run: tflint --recursive --format compact --config ${{ github.workspace }}/terraform/.tflint.hcl
+      #   continue-on-error: true # Don't stop when an error occurs
       - name: Comment TFLint
         uses: reviewdog/action-tflint@master
         with:
