@@ -68,3 +68,13 @@ resource "aws_internet_gateway" "this" {
     Name = "${var.env}-${var.name}-igw"
   }
 }
+
+# NAT
+resource "aws_nat_gateway" "this" {
+  for_each      = var.public_subnets
+  allocation_id = aws_eip.this[each.key].id
+  subnet_id     = aws_subnet.public[each.key].id
+  tags = {
+    Name = "${var.env}-${var.name}-ng-${each.value.name}"
+  }
+}
