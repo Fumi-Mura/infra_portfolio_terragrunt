@@ -69,7 +69,6 @@ jobs:
           tflint_init: true
           tflint_version: "v0.52.0"
           tflint_config: ${{ github.workspace }}/terraform/.tflint.hcl
-          working_directory: ${{ github.workspace }}/terraform/
           # flags: "--format=compact"
           flags: "--recursive"
           fail_on_error: false # Don't stop when an error occurs
