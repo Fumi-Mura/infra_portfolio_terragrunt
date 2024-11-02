@@ -59,3 +59,12 @@ resource "aws_subnet" "db" {
     Name = "${var.env}-${var.name}-${each.value.role}"
   }
 }
+
+# IGW
+resource "aws_internet_gateway" "this" {
+  vpc_id = aws_vpc.this.id
+
+  tags = {
+    Name = "${var.env}-${var.name}-igw"
+  }
+}
