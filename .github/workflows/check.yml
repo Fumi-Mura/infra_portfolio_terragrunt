@@ -11,9 +11,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 permissions:
-  id-token: write
   contents: read
-  issues: write
+  id-token: write
   pull-requests: write
 env:
   WORKING_DIRECTORY: "terraform/aws/environments/mng/oidc"
@@ -43,10 +42,10 @@ jobs:
       - name: Init Terraform
         run: terraform init
         working-directory: ${{ env.WORKING_DIRECTORY }}
-      # - name: Format Terraform
-      #   id: fmt
-      #   run: terraform fmt -check -recursive # Output a list of filenames whose files are not properly formatted.
-      #   continue-on-error: true # Don't stop when an error occurs
+      - name: Format Terraform
+        id: fmt
+        run: terraform fmt -check -recursive # Output a list of filenames whose files are not properly formatted.
+        continue-on-error: true # Don't stop when an error occurs
 
       ##################################################
       # TFLint
