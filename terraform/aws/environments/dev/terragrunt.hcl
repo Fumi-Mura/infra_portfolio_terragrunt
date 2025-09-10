@@ -20,13 +20,13 @@ remote_state {
     # Default versioning setting is enabled.
     bucket               = "terragrunt-${local.env}-${local.name}-terraform-tfstate-s3-bucket"
     key                  = "${path_relative_to_include()}/terraform.tfstate"
-    region               = "${local.region}"
+    region               = local.region
     encrypt              = true
     bucket_sse_algorithm = "AES256"
 
     s3_bucket_tags = {
-      "Environments"        = "${path_relative_to_include()}"
-      "ServiceName"         = "${local.name}"
+      "Environments"        = local.env
+      "ServiceName"         = local.name
       "CreatedByTerragrunt" = "true"
     }
   }
