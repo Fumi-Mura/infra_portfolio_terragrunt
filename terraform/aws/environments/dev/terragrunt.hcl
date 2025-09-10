@@ -16,7 +16,7 @@ remote_state {
     if_exists = "overwrite_terragrunt"
   }
 
-  config  = {
+  config = {
     # Default versioning setting is enabled.
     bucket               = "terragrunt-${local.env}-${local.name}-terraform-tfstate-s3-bucket"
     key                  = "${path_relative_to_include()}/terraform.tfstate"

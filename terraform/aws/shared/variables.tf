@@ -1,12 +1,12 @@
 variable "region" {
-  type        = string
-  default     = "ap-northeast-1"
+  type    = string
+  default = "ap-northeast-1"
 }
 
 variable "Environment" {
-  type        = string
+  type = string
 }
 
 variable "ServiceName" {
-  type        = string
+  type = string
 }
