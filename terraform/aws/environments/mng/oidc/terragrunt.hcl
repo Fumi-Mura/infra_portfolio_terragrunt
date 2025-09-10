@@ -1,10 +1,10 @@
 # child settings
-include "root" {
-  path = find_in_parent_folders()
-}
+locals {
+  env_vars    = yamldecode(file(find_in_parent_folders("env_vars.yaml")))
+  common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
 
-terraform {
-  source = "../../../modules/oidc"
+  env  = local.env_vars.env
+  name = local.common_vars.name
 }
 
 inputs = {
@@ -12,10 +12,10 @@ inputs = {
   name = local.name
 }
 
-locals {
-  env_vars    = yamldecode(file(find_in_parent_folders("env_vars.yaml")))
-  common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
+include "root" {
+  path = find_in_parent_folders()
+}
 
-  env  = local.env_vars.env
-  name = local.common_vars.name
+terraform {
+  source = "../../../modules/oidc"
 }

@@ -1,4 +1,13 @@
 # root settings
+locals {
+  env_vars    = yamldecode(file("env_vars.yaml"))
+  common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
+
+  env    = local.env_vars.env
+  region = local.common_vars.region
+  name   = local.common_vars.name
+}
+
 remote_state {
   backend = "s3"
 
@@ -23,44 +32,26 @@ remote_state {
   }
 }
 
-generate "provider" {
-  path      = "_provider.tf"
-  if_exists = "overwrite_terragrunt"
-  contents  = <<EOF
-    provider "aws" {
-      region = "${local.region}"
-      default_tags {
-        tags = {
-          Environment        = "${local.env}"
-          ServiceName        = "${local.name}"
-          ManagedByTerraform = true
-        }
-      }
-    }
-  EOF
+inputs = {
+  region      = local.region
+  Environment = local.env
+  ServiceName = local.name
 }
 
-generate "version" {
+generate "providers" {
+  path      = "_providers.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = file("../../shared/providers.tf")
+}
+
+generate "terraform" {
   path      = "_terraform.tf"
   if_exists = "overwrite_terragrunt"
-  contents  = <<EOF
-    terraform {
-    required_version = "~> 1.9.0"
-    required_providers {
-      aws = {
-        version = "~> 5.59.0"
-        source  = "hashicorp/aws"
-      }
-    }
-  }
-  EOF
+  contents  = file("../../shared/terraform.tf")
 }
 
-locals {
-  env_vars    = yamldecode(file("env_vars.yaml"))
-  common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
-
-  env    = local.env_vars.env
-  region = local.common_vars.region
-  name   = local.common_vars.name
+generate "variables" {
+  path      = "_variables.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = file("../../shared/variables.tf")
 }
