@@ -1,30 +1,23 @@
-data "aws_iam_policy_document" "this" {
-  dynamic "statement" {
-    for_each = var.policy_statement
-    content {
-      effect        = statement.value.effect
-      actions       = statement.value.actions
-      not_actions   = statement.value.not_actions
-      resources     = statement.value.resources
-      not_resources = statement.value.not_resources
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    effect    = "Allow"
+    actions   = ["sts:AssumeRole"]
+    resources = var.resources
 
-      dynamic "condition" {
-        for_each = statement.value.condition # Execute loop only when use condition.
-        content {
-          test     = condition.value.test
-          variable = condition.value.variable
-          values   = condition.value.values
-        }
-      }
+    principals {
+      type        = var.assume_type
+      identifiers = var.assume_identifiers
     }
   }
 }
 
-resource "aws_iam_policy" "this" {
-  name   = "${var.env}-${var.name}-${var.purpose}-iam-policy"
-  policy = data.aws_iam_policy_document.this.json
+resource "aws_iam_role" "this" {
+  name                 = "${var.env}-${var.name}-${var.role}-iam-role"
+  assume_role_policy   = data.aws_iam_policy_document.assume_role.json
+  managed_policy_arns  = var.managed_policy_arns
+  max_session_duration = var.max_session_duration
 
   tags = {
-    Name = "${var.env}-${var.name}-${var.purpose}-iam-policy"
+    Name = "${var.env}-${var.name}-${var.role}-iam-role"
   }
 }

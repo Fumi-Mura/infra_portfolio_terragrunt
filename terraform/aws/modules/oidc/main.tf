@@ -21,7 +21,7 @@ resource "aws_iam_role" "oidc" {
               "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com"
             },
             StringLike = {
-              "token.actions.githubusercontent.com:sub" : "repo:Fumi-Mura/infra_portfolio:*"
+              "token.actions.githubusercontent.com:sub" : "repo:Fumi-Mura/infra_portfolio_*"
             }
           }
         }
