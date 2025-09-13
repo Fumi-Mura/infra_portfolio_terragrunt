@@ -1,11 +1,16 @@
-# root settings
 locals {
-  env_vars    = yamldecode(file("env_vars.yaml"))
   common_vars = yamldecode(file(find_in_parent_folders("common_vars.yaml")))
+  env_vars    = yamldecode(file("env_vars.yaml"))
 
-  env    = local.env_vars.env
   region = local.common_vars.region
   name   = local.common_vars.name
+  env    = local.env_vars.env
+}
+
+inputs = {
+  region      = local.region
+  Environment = local.env
+  ServiceName = local.name
 }
 
 remote_state {
@@ -30,12 +35,6 @@ remote_state {
       "CreatedByTerragrunt" = "true"
     }
   }
-}
-
-inputs = {
-  region      = local.region
-  Environment = local.env
-  ServiceName = local.name
 }
 
 generate "providers" {

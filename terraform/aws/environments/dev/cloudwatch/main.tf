@@ -1,5 +1,5 @@
 locals {
-  env  = "mng"
+  env  = "dev"
   name = "fumis-pf"
 }
 
