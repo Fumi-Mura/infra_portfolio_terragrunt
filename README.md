@@ -68,7 +68,7 @@ If there are many directories, it may be easier to manage them by creating a int
 ### AWS resource name
 
 {env}-{service_name}-{role}-{resource_name}  
-ex: mng-fumis-portfolio-terraform-tfstate-s3-bucket
+e.g. mng-fumis-portfolio-terraform-tfstate-s3-bucket
 
 
 ## Outside source code control
